@@ -25,6 +25,9 @@ type ResponseType<D = {}> = {
     data: D
 }
 
+type ResponseDeleteType = {
+    fieldsErrors: string[]
+}
 
 export type TaskType = {
     description: string
@@ -73,12 +76,12 @@ export const todolistsApi = {
         return instance.get<GetTaskResponse>(`todo-lists/${todolistId}/tasks`)
     },
     createTasks(todolistId: string, title: string) {
-        return instance.post<ResponseType>(`todo-lists/${todolistId}/tasks`,{title})
+        return instance.post<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks`,{title})
     },
     deleteTasks(todolistId: string, taskId: string) {
-        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
+        return instance.delete<ResponseType & ResponseDeleteType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     updateTasks(todolistId: string, taskId: string, title: string) {
-        return instance.put<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`,{title})
+        return instance.put<ResponseType<UpdateTaskModelType>>(`todo-lists/${todolistId}/tasks/${taskId}`,{title})
     }
 }
